@@ -5,12 +5,19 @@ function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSubmit = (e) => {
+const handleSubmit = (e) => {
   e.preventDefault();
 
-  console.log("Email:", email);
-  console.log("Password:", password);
-  };
+  if (!email || !password) {
+    alert("Please fill all fields");
+    return;
+  }
+
+  console.log({
+    email,
+    password,
+  });
+};
   return (
     <div className="container vh-100 d-flex justify-content-center align-items-center">
       <div className="card shadow p-4" style={{ width: "400px" }}>

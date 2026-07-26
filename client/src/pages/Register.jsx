@@ -1,12 +1,36 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 
 function Register() {
+const [name, setName] = useState("");
+const [email, setEmail] = useState("");
+const [password, setPassword] = useState("");
+const [confirmPassword, setConfirmPassword] = useState("");
+const handleSubmit = (e) => {
+  e.preventDefault();
+
+  if (!name || !email || !password || !confirmPassword) {
+    alert("Please fill all fields");
+    return;
+  }
+
+  if (password !== confirmPassword) {
+    alert("Passwords do not match");
+    return;
+  }
+
+  console.log({
+    name,
+    email,
+    password,
+  });
+};
   return (
     <div className="container vh-100 d-flex justify-content-center align-items-center">
       <div className="card shadow p-4" style={{ width: "450px" }}>
         <h2 className="text-center mb-4">Create Account</h2>
 
-        <form>
+        <form onSubmit={handleSubmit}>
           {/* Name */}
           <div className="mb-3">
             <label className="form-label">Full Name</label>
@@ -14,6 +38,8 @@ function Register() {
               type="text"
               className="form-control"
               placeholder="Enter your full name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
             />
           </div>
 
@@ -24,6 +50,8 @@ function Register() {
               type="email"
               className="form-control"
               placeholder="Enter your email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
           </div>
 
@@ -34,6 +62,8 @@ function Register() {
               type="password"
               className="form-control"
               placeholder="Enter your password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
             />
           </div>
 
@@ -44,6 +74,8 @@ function Register() {
               type="password"
               className="form-control"
               placeholder="Confirm your password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
             />
           </div>
 
