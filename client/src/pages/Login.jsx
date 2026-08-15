@@ -1,30 +1,49 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import API from "../services/api";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-const handleSubmit = (e) => {
-  e.preventDefault();
+  const navigate = useNavigate();
 
-  if (!email || !password) {
-    alert("Please fill all fields");
-    return;
-  }
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-  console.log({
-    email,
-    password,
-  });
-};
+    if (!email || !password) {
+      alert("Please fill all fields");
+      return;
+    }
+
+    try {
+      const response = await API.post("/auth/login", {
+        email,
+        password,
+      });
+
+      localStorage.setItem("token", response.data.token);
+
+      alert(response.data.message);
+
+      navigate("/dashboard");
+
+    } catch (error) {
+      console.error("Login error:", error);
+
+      alert(
+        error.response?.data?.message ||
+        "Login failed"
+      );
+    }
+  };
+
   return (
     <div className="container vh-100 d-flex justify-content-center align-items-center">
       <div className="card shadow p-4" style={{ width: "400px" }}>
         <h2 className="text-center mb-4">Task Manager</h2>
 
         <form onSubmit={handleSubmit}>
-          {/* Email */}
           <div className="mb-3">
             <label className="form-label">Email</label>
 
@@ -37,7 +56,6 @@ const handleSubmit = (e) => {
             />
           </div>
 
-          {/* Password */}
           <div className="mb-3">
             <label className="form-label">Password</label>
 
@@ -50,7 +68,10 @@ const handleSubmit = (e) => {
             />
           </div>
 
-          <button className="btn btn-primary w-100">
+          <button
+            type="submit"
+            className="btn btn-primary w-100"
+          >
             Login
           </button>
         </form>

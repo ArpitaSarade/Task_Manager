@@ -1,12 +1,13 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import API from "../services/api";
 
 function Register() {
 const [name, setName] = useState("");
 const [email, setEmail] = useState("");
 const [password, setPassword] = useState("");
 const [confirmPassword, setConfirmPassword] = useState("");
-const handleSubmit = (e) => {
+const handleSubmit = async (e) => {
   e.preventDefault();
 
   if (!name || !email || !password || !confirmPassword) {
@@ -19,11 +20,29 @@ const handleSubmit = (e) => {
     return;
   }
 
-  console.log({
-    name,
-    email,
-    password,
-  });
+  try {
+    const response = await API.post("/auth/register", {
+      name,
+      email,
+      password,
+    });
+
+    alert(response.data.message);
+
+    // Clear form
+    setName("");
+    setEmail("");
+    setPassword("");
+    setConfirmPassword("");
+
+  } catch (error) {
+    console.error("Registration error:", error);
+
+    alert(
+      error.response?.data?.message ||
+      "Registration failed"
+    );
+  }
 };
   return (
     <div className="container vh-100 d-flex justify-content-center align-items-center">
