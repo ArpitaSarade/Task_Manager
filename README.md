@@ -17,7 +17,8 @@ A full-stack Task Manager application built with:
 - Search Tasks
 - Responsive UI
 
-##how to run the project
+## how to run the project
+
 -first run the client 
   In the project folder we change directory to client folder 
   and run project with command "npm run dev".
